@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const PlayerShortlist = ({ playerCount, round_no }) => {
+const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData }) => {
   const [names, setNames] = useState(Array(playerCount).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const round = useRef(round_no).current;
@@ -14,14 +14,22 @@ const PlayerShortlist = ({ playerCount, round_no }) => {
     const updated = [...names];
     updated[index] = value;
     setNames(updated);
+
   };
 
   const allFilled = names.every((name) => name.trim() !== '');
 
   const handleSubmit = () => {
     if (allFilled) {
+      const updated = [...names];
+    
+      const merged = [...roundsData, updated];  // ✅ no nesting
+    
+      console.log(merged);
+      setRoundsData(merged);
       setSubmitted(true);
-    } else {
+    }
+     else {
       alert('Please fill in all player names.');
     }
   };
