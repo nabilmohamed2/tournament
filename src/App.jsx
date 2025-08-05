@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PlayerShortlist from './Components/PlayerShortlist';
 
 const App = () => {
-  const [initialCount, setInitialCount] = useState('');
+  const [initialCount, setInitialCount] = useState('8');
   const [rounds, setRounds] = useState([]);
 
   const handleSubmit = (e) => {
