@@ -1,9 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const PlayerShortlist = ({ playerCount, round_no }) => {
   const [names, setNames] = useState(Array(playerCount).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const round = useRef(round_no).current;
+
+  useEffect(() => {
+    const defaultNames = Array.from({ length: playerCount }, (_, i) => `Player ${i + 1}`);
+    setNames(defaultNames);
+  }, [])
 
   const handleChange = (index, value) => {
     const updated = [...names];
