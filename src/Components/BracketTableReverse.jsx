@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BracketTable = ({ rounds }) => {
+const BracketTableReverse = ({ rounds }) => {
   if (!rounds || rounds.length === 0) return null;
 
   const numRounds = rounds.length;
@@ -45,9 +45,9 @@ const BracketTable = ({ rounds }) => {
   const baseCellStyle = {
     width: '140px',
     height: '50px',
-    textAlign: 'left',
+    textAlign: 'right',
     verticalAlign: 'middle',
-    paddingLeft: '10px',
+    paddingRight: '10px',
     fontSize: '14px',
     border: 'none',
   };
@@ -66,12 +66,13 @@ const BracketTable = ({ rounds }) => {
       <tbody>
         {table.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {row.map((player, colIndex) => {
-              const needsRightBorder = rightBorderMap.has(`${rowIndex}-${colIndex}`);
+            {[...row].reverse().map((player, colIndex) => {
+              const actualColIndex = numRounds - 1 - colIndex;
+              const needsRightBorder = rightBorderMap.has(`${rowIndex}-${actualColIndex}`);
 
               const cellStyle = {
                 ...baseCellStyle,
-                borderRight: needsRightBorder ? '2px solid #007bff' : 'none',
+                borderLeft: needsRightBorder ? '2px solid #007bff' : 'none',
                 borderBottom: '1px solid #eee',
               };
 
@@ -81,17 +82,18 @@ const BracketTable = ({ rounds }) => {
                     <div
                       style={{
                         display: 'flex',
+                        justifyContent: 'flex-end',
                         alignItems: 'center',
                         gap: '8px',
                         padding: '12px 0',
                       }}
                     >
+                      <span style={playerStyle}>{player}</span>
                       <span style={{
                         fontWeight: 600,
                         color: '#007bff',
                         fontSize: '16px',
-                      }}>→</span>
-                      <span style={playerStyle}>{player}</span>
+                      }}>←</span>
                     </div>
                   )}
                 </td>
@@ -104,4 +106,4 @@ const BracketTable = ({ rounds }) => {
   );
 };
 
-export default BracketTable;
+export default BracketTableReverse;

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PlayerShortlist from './Components/PlayerShortlist';
-import Bracket from './Components/Bracket.jsx'
+import Bracket from './Components/Bracket.jsx';
+import TournamentBracket from './Components/TournamentBracket.jsx'
 
 const App = () => {
   const [initialCount, setInitialCount] = useState('8');
   const [rounds, setRounds] = useState([]);
-  const [roundsData, setRoundsData] = useState([])
+  const [roundsData, setRoundsData] = useState([])  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,9 +61,10 @@ const App = () => {
         ))}
       </div>
 
-      <Bracket rounds={roundsData} />
+      <TournamentBracket groupA={roundsData} groupB={roundsData} winner={roundsData[2]}/>
     </div>
   );
 };
 
 export default App;
+
