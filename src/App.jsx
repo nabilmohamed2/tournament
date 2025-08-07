@@ -61,7 +61,17 @@ const App = () => {
         ))}
       </div>
 
-      <TournamentBracket groupA={roundsData} groupB={roundsData} winner={roundsData[2]}/>
+      {/* Tournament Bracket Section */}
+{rounds.length > 0 &&
+  roundsData.length === rounds.length &&
+  roundsData.every(round => round.length > 0) && (
+    <TournamentBracket
+      groupA={roundsData}
+      groupB={roundsData}
+      winner={roundsData[roundsData.length - 1]}
+    />
+)}
+
     </div>
   );
 };
