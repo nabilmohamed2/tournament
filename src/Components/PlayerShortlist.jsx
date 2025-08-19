@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData }) => {
+const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData, group }) => {
   const [names, setNames] = useState(Array(playerCount).fill(""));
   const [submitted, setSubmitted] = useState(false);
   const round = useRef(round_no).current;
@@ -50,6 +50,7 @@ const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData }) =
     <>
       <div className="card shadow" style={{ height: "50%" }}>
         <div className="card-body text-center">
+          <h3>Group {group}</h3>
           {!submitted ? (
             <>
               <h4 className="mb-4">
