@@ -18,7 +18,8 @@ const BracketTableReverse = ({ rounds }) => {
     Array.from({ length: numRounds }, () => null)
   );
 
-  const rightBorderMap = new Set();
+  const leftBorderMap = new Set();
+  const topBottomMap = {};
 
   rounds.forEach((round, roundIndex) => {
     const spacing = Math.pow(2, roundIndex + 1);
@@ -35,8 +36,19 @@ const BracketTableReverse = ({ rounds }) => {
       for (let i = 0; i < round.length; i += 2) {
         const upperRow = i * spacing + offset;
         const lowerRow = (i + 1) * spacing + offset;
+
         for (let r = upperRow; r <= lowerRow; r++) {
-          rightBorderMap.add(`${r}-${roundIndex}`);
+          leftBorderMap.add(`${r}-${roundIndex}`);
+        }
+
+        // mark top & bottom
+        topBottomMap[`${upperRow}-${roundIndex}`] = 'top';
+        topBottomMap[`${lowerRow}-${roundIndex}`] = 'bottom';
+
+        // add "vs" in the middle row
+        const midRow = Math.floor((upperRow + lowerRow) / 2);
+        if (midRow < totalRows) {
+          table[midRow][roundIndex] = "vs";
         }
       }
     }
@@ -61,24 +73,35 @@ const BracketTableReverse = ({ rounds }) => {
     minWidth: '80px',
   };
 
+  const vsStyle = {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: '25px',
+    display: 'inline-block',
+    padding: '4px 6px',
+  };
+
   return (
     <table style={{ borderCollapse: 'collapse' }}>
       <tbody>
         {table.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {[...row].reverse().map((player, colIndex) => {
+            {[...row].reverse().map((cell, colIndex) => {
               const actualColIndex = numRounds - 1 - colIndex;
-              const needsRightBorder = rightBorderMap.has(`${rowIndex}-${actualColIndex}`);
+              const needsLeftBorder = leftBorderMap.has(`${rowIndex}-${actualColIndex}`);
+              const topBottom = topBottomMap[`${rowIndex}-${actualColIndex}`];
 
               const cellStyle = {
                 ...baseCellStyle,
-                borderLeft: needsRightBorder ? '2px solid #007bff' : 'none',
-                borderBottom: '1px solid #eee',
+                borderLeft:
+                  needsLeftBorder && topBottom !== 'top' && topBottom !== 'bottom'
+                    ? '2px solid #007bff'
+                    : 'none',
               };
 
               return (
                 <td key={colIndex} style={cellStyle}>
-                  {player && (
+                  {cell && cell !== "vs" && (
                     <div
                       style={{
                         display: 'flex',
@@ -88,12 +111,40 @@ const BracketTableReverse = ({ rounds }) => {
                         padding: '12px 0',
                       }}
                     >
-                      <span style={playerStyle}>{player}</span>
-                      <span style={{
-                        fontWeight: 600,
-                        color: '#007bff',
-                        fontSize: '16px',
-                      }}>←</span>
+                      <div>
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            width: '30px',
+                            height: '30px',
+                            // backgroundColor: 'white',
+                            borderLeft: '2px solid #007bff',
+                            borderTop:
+                              topBottom === 'top' ? '2px solid #007bff' : undefined,
+                            borderBottom:
+                              topBottom === 'bottom' ? '2px solid #007bff' : undefined,
+                            marginTop: topBottom === 'bottom' ? '-25px' : undefined,
+                            marginBottom: topBottom === 'top' ? '-25px' : undefined,
+                            marginLeft: '-2px',
+                          }}
+                        ></span>
+                      </div>
+                      <span style={playerStyle}>{cell}</span>
+                      <span
+                        style={{
+                          fontWeight: 600,
+                          color: '#007bff',
+                          fontSize: '16px',
+                        }}
+                      >
+                        ←
+                      </span>
+                    </div>
+                  )}
+
+                  {cell === "vs" && (
+                    <div style={{ textAlign: 'center', padding: '6px 0' }}>
+                      <span style={vsStyle}>VS</span>
                     </div>
                   )}
                 </td>

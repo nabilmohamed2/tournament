@@ -1,12 +1,13 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+/*     */
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  /* background-image:url('/src/assets/AdobeStock_564591538_Preview.jpeg') ; */
 
   color: #000000;              /* ✅ black text */
-  background-color: #ffffff;   /* ✅ white background */
+  /* background-color: #ffffff; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,12 +26,19 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: white;   /* ✅ enforce white */
-  color: black;              /* ✅ enforce black */
+  /* display: flex; */
+  /* place-items: center; */
+  /* min-width: 320px;
+  min-height: 100vh; */
+  /* background-color: white;  */
+    background-image:url('/src/assets/touramant.jpg') ; 
+  color: black;  
+  
+  /* background-image: url('/src/assets/touramant.jpg');  */
+  background-size: cover;       /* make it cover the whole screen */
+  background-repeat: no-repeat; /* stop tiling */
+  background-position: center;  /* center it */
+  background-attachment: fixed;              /* ✅ enforce black */
 }
 
 h1 {

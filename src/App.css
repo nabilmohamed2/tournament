@@ -5,4 +5,6 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+   background-image:url('/src/assets/AdobeStock_564591538_Preview.jpeg') ;
+   /* background-image: url('/bg.jpeg');  */
 }

@@ -5,7 +5,7 @@ import BracketTableReverse from './BracketTableReverse';
 const TournamentBracket = ({ groupA, groupB, winner }) => {
   return (
     <div style={{
-      background: '#ffffff',
+      background: 'black',
       color: '#333',
       padding: '40px 20px',
       fontFamily: 'Segoe UI, sans-serif',
@@ -14,6 +14,7 @@ const TournamentBracket = ({ groupA, groupB, winner }) => {
     }}>
       <h1 style={{
         color: '#007bff',
+      
         textAlign: 'center',
         marginBottom: '30px',
         fontSize: '32px',
@@ -23,8 +24,16 @@ const TournamentBracket = ({ groupA, groupB, winner }) => {
         TOURNAMENT CUP
       </h1>
 
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', gap: '60px' }}>
-        
+      <div style={{
+        width: "100%", display: 'flex', justifyContent: 'center', alignItems: 'flex-start',
+        //  gap: '60px' 
+        backgroundImage: "url('/src/assets/touramant.jpg')",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+
+      }}>
+
         {/* Group A */}
         <div style={{ textAlign: 'left', flex: 1, minWidth: '350px' }}>
           <h3 style={{
@@ -47,18 +56,18 @@ const TournamentBracket = ({ groupA, groupB, winner }) => {
           minWidth: '160px',
         }}>
           <p
-  style={{
-    width: '100px',
-    height: '100px',
-    fontSize: '64px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    margin: 0,
-  }}
->
-  🏆
-</p>
+            style={{
+              width: '100px',
+              height: '100px',
+              fontSize: '64px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: 0,
+            }}
+          >
+            🏆
+          </p>
 
           <h2 style={{
             color: '#ff9900',
