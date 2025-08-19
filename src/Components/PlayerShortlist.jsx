@@ -11,7 +11,7 @@ const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData, gro
       const defaultNames = Array.from({ length: playerCount }, (_, i) => `Player ${i + 1}`);
       setNames(defaultNames);
     } else {
-      // For later rounds, names should be chosen from winners of previous round
+      // For later rounds, names initially empty
       setNames(Array(playerCount).fill(""));
     }
   }, [playerCount, round]);
@@ -22,25 +22,31 @@ const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData, gro
     setNames(updated);
   };
 
-  const allFilled = names.every((name) => name.trim() !== "");
-
   const handleSubmit = () => {
-    if (allFilled) {
-      const updated = [...names];
-      const merged = [...roundsData];
-      merged[round - 1] = updated; // ✅ store round result at correct index
-      setRoundsData(merged);
-      setSubmitted(true);
-    } else {
-      alert("Please fill in all fields.");
+    let updated = [...names];
+
+    // If some winners are not chosen → assign first player of the pair
+    if (round > 1 && roundsData[round - 2]) {
+      const prevRound = roundsData[round - 2];
+      for (let i = 0; i < prevRound.length; i += 2) {
+        const pairIndex = i / 2;
+        if (!updated[pairIndex] || updated[pairIndex].trim() === "") {
+          updated[pairIndex] = prevRound[i]; // default = first player of the pair
+        }
+      }
     }
+
+    const merged = [...roundsData];
+    merged[round - 1] = updated; // ✅ store round result at correct index
+    setRoundsData(merged);
+    setNames(updated);
+    setSubmitted(true);
   };
 
   // Get valid options for this round
   let options = [];
   if (round > 1 && roundsData[round - 2]) {
     const prevRound = roundsData[round - 2];
-    // group in pairs: [Player1, Player2], [Player3, Player4], etc.
     for (let i = 0; i < prevRound.length; i += 2) {
       options.push([prevRound[i], prevRound[i + 1]]);
     }
@@ -70,7 +76,7 @@ const PlayerShortlist = ({ playerCount, round_no, roundsData, setRoundsData, gro
                         />
                       </div>
                     ))
-                  : // Later Rounds → choose winner from each pair
+                  : // Later Rounds → select dropdowns
                     options.map((pair, i) => (
                       <div key={i} className="col-6 col-md-4 col-lg-3">
                         <select
